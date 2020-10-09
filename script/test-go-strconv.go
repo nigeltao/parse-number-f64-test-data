@@ -64,7 +64,7 @@ func do(filename string) error {
 	defer f.Close()
 
 	n, s := 0, bufio.NewScanner(f)
-	for ; s.Scan(); n++ {
+	for s.Scan() {
 		line := s.Bytes()
 		if len(line) < 18 {
 			continue
@@ -87,6 +87,7 @@ func do(filename string) error {
 		if have != want {
 			return fmt.Errorf("src:  %s\nhave: %016X\nwant: %016X", src, have, want)
 		}
+		n++
 	}
 	if err := s.Err(); err != nil {
 		return err
