@@ -4,7 +4,7 @@ This repository contains test data for `parse_number_f64` implementations, also
 known as `StringToDouble` or `strtod`, which convert from an ASCII string to a
 64-bit value (IEEE 754 double-precision floating point).
 
-The `data/*.txt` files were derived by running
+Most of the `data/*.txt` files were derived by running
 `script/extract-numbery-strings.go` on various repositories, listed further
 below. Their contents look like:
 
@@ -35,6 +35,55 @@ In the `data` directory:
   [Tencent/rapidjson](https://github.com/Tencent/rapidjson)
 - `ulfjack-ryu.txt` was extracted from
   [ulfjack/ryu](https://github.com/ulfjack/ryu)
+
+
+### remyoudompheng/fptest
+
+The `data/remyoudompheng-fptest-?.txt` files were created by running
+`go test -test.run=TestTortureAtof64` in the
+[remyoudompheng/fptest](https://github.com/remyoudompheng/fptest) repository
+(with the following patch), `sort`ing  and `uniq`ing the resultant
+`TestTortureAtof64.txt` file and then using `sed` to split what would be a 137
+MiB file into multiple (million line) files:
+
+```diff
+    diff --git a/torture_test.go b/torture_test.go
+    index 87ba7e7..59887ff 100644
+    --- a/torture_test.go
+    +++ b/torture_test.go
+    @@ -1,8 +1,11 @@
+     package fptest
+
+     import (
+    +       "bufio"
+            "bytes"
+    +       "fmt"
+            "math"
+    +       "os"
+            "strconv"
+            "testing"
+
+    @@ -124,6 +127,11 @@ func TestTortureShortest32(t *testing.T) {
+     }
+
+     func TestTortureAtof64(t *testing.T) {
+    +       tmpFile, _ := os.Create("/tmp/TestTortureAtof64.txt")
+    +       defer tmpFile.Close()
+    +       tmpWriter := bufio.NewWriter(tmpFile)
+    +       defer tmpWriter.Flush()
+    +
+            count := 0
+            buf := make([]byte, 64)
+            roundUp := false
+    @@ -140,6 +148,7 @@ func TestTortureAtof64(t *testing.T) {
+                            t.Errorf("could not parse %q: %s", s, err)
+                            return
+                    }
+    +               fmt.Fprintf(tmpWriter, "%016X %s\n", math.Float64bits(z), s)
+                    expect := x
+                    if roundUp {
+                            expect = y
+    ```
 
 
 ## Users
