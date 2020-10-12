@@ -5,8 +5,8 @@ known as `StringToDouble` or `strtod`, which convert from an ASCII string to a
 64-bit value (IEEE 754 double-precision floating point).
 
 Most of the `data/*.txt` files were derived by running
-`script/extract-numbery-strings.go` on various repositories, listed further
-below. Their contents look like:
+`script/extract-numbery-strings.go` on various repositories or zip files,
+listed further below. Their contents look like:
 
     3FF0000000000000 1
     3FF4000000000000 1.25
@@ -29,6 +29,8 @@ In the `data` directory:
   [google/double-conversion](https://github.com/google/double-conversion)
 - `google-wuffs.txt` was extracted from
   [google/wuffs](https://github.com/google/wuffs)
+- `ibm-fpgen.txt` was extracted from IBM's
+  [IEEE 754R test suite](https://www.research.ibm.com/haifa/projects/verification/fpgen/test_suite_download.shtml)
 - `lemire-fast-double-parser.txt` was extracted from
   [lemire/fast\_double\_parser](https://github.com/lemire/fast_double_parser)
 - `tencent-rapidjson.txt` was extracted from
