@@ -1,3 +1,11 @@
+# Deprecated
+
+See the
+[parse-number-fxx-test-data](https://github.com/nigeltao/parse-number-fxx-test-data)
+repository instead.
+
+---
+
 # `parse_number_f64` Test Data
 
 This repository contains test data for `parse_number_f64` implementations, also
